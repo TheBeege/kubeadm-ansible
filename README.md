@@ -13,6 +13,25 @@ System requirements:
 
 # Usage
 
+## Local Virtual Environment Setup
+1. Install [Vagrant](https://www.vagrantup.com/downloads).
+2. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+3. Run `vagrant plugin install vagrant-vbguest` to install the VirtualBox Guest Additions plugin for Vagrant.
+4. Run `vagrant up` to bring up the virtual machines. This will fail. It's expected.
+   * If it does not fail, you're done! It failed for me on Windows.
+   * Also, note that on Windows, you won't be able to run Ansible. You'll need to do that from within WSL.
+5. Run `vagrant ssh k8s-n1` to connect to the first Vagrant worker node.
+6. Run `sudo ln -sf /opt/VBoxGuestAdditions-*/lib/VBoxGuestAdditions/mount.vboxsf /sbin/mount.vboxsf && exit`
+7. Run `vagrant up`. It will fail again.
+8. Run `vagrant ssh k8s-n2` to connect to the second Vagrant worker node.
+9. Again run `sudo ln -sf /opt/VBoxGuestAdditions-*/lib/VBoxGuestAdditions/mount.vboxsf /sbin/mount.vboxsf && exit`
+10. Run `vagrant up`. It will fail again.
+11. Run `vagrant ssh k8s-m1` to connect to the Vagrant master node.
+12. Again run `sudo ln -sf /opt/VBoxGuestAdditions-*/lib/VBoxGuestAdditions/mount.vboxsf /sbin/mount.vboxsf && exit`
+
+You're ready!
+
+## Run Ansible things 
 Add the system information gathered above into a file called `hosts.ini`. For example:
 ```
 [master]
@@ -25,6 +44,8 @@ Add the system information gathered above into a file called `hosts.ini`. For ex
 master
 node
 ```
+
+(This is already done)
 
 If you're working with ubuntu, add the following properties to each host `ansible_python_interpreter='python3'`:
 ```

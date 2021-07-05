@@ -29,3 +29,12 @@
     state: started
     enabled: yes
   register: started_docker
+
+- name: Set containerd configurations to support CRI
+  shell: containerd config default > /etc/containerd/config.toml
+
+- name: Restart containerd
+  systemd:
+    name: containerd
+    state: restarted
+    enabled: yes

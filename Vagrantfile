@@ -5,7 +5,7 @@ $os_image = (ENV['OS_IMAGE'] || "ubuntu16").to_sym
 def set_vbox(vb, config)
   vb.gui = false
   vb.memory = 2048
-  vb.cpus = 1
+  vb.cpus = 2
 
   case $os_image
   when :centos7
